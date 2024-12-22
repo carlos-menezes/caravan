@@ -48,4 +48,4 @@ Will output:
 
 ## Transports
 
-- [ConsoleTransport](./packages/transport-console): simple console transport that logs to the console.
+- [ConsoleTransport](./packages/transport-console): a transport that logs to the console with optional pretty printing.

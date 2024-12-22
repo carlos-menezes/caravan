@@ -2,7 +2,9 @@ import {
   Transport,
   type TLogEntry,
   type TTransportBaseConstructorOptions,
-} from "caravan-logger";
+} from "@caravan-logger/logger";
+import chalk from "chalk";
+import { levelColors } from "./constants";
 
 type TConsoleTransportOptions = {
   readonly pretty?: boolean;
@@ -21,22 +23,51 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     object,
     hostname,
     processId,
-    timestamp,
+    date,
     context,
   }: TLogEntry): Promise<void> {
     const output = this.options.pretty
-      ? `${timestamp} ${level.padEnd(5)} ${hostname}:${processId} - ${message}\n${JSON.stringify({ ...context, ...object }, null, 2)}`
+      ? this.formatPrettyOutput({
+          level,
+          message,
+          object,
+          hostname,
+          processId,
+          date,
+          context,
+        })
       : JSON.stringify({
           level,
           message,
           hostname,
           processId,
-          timestamp,
+          date,
           ...context,
           ...object,
         });
 
     console.log(output);
+  }
+
+  private formatPrettyOutput({
+    level,
+    message,
+    object,
+    hostname,
+    processId,
+    date,
+    context,
+  }: TLogEntry): string {
+    const coloredLevel = (levelColors[level] || chalk.white)(level.padEnd(5));
+    const coloredTimestamp = chalk.gray(date.toISOString());
+    const coloredHost = chalk.cyan(`${hostname}:${processId}`);
+
+    const metadata = { ...context, ...object };
+    const prettyMetadata = Object.keys(metadata).length
+      ? "\n" + chalk.gray(JSON.stringify(metadata, null, 2))
+      : "";
+
+    return `${coloredTimestamp} ${coloredLevel} ${coloredHost} - ${message}${prettyMetadata}`;
   }
 }
 

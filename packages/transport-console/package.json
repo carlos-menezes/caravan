@@ -10,16 +10,19 @@
     "build": "pnpm run clear && rollup -c"
   },
   "devDependencies": {
+    "@caravan-logger/logger": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "caravan-logger": "workspace:*",
     "@types/node": "^22.10.2",
+    "rimraf": "^6.0.1",
     "rollup": "^4.29.1",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
-    "typescript": "^5.7.2",
-    "rimraf": "^6.0.1"
+    "typescript": "^5.7.2"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.4.1"
+  }
 }

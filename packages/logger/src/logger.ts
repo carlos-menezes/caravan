@@ -13,7 +13,7 @@ type TLoggerContext = Record<string | number | symbol, unknown>;
 type TLogEntry<TObject extends Record<string | number | symbol, unknown> = {}> =
   {
     readonly level: TLogLevel;
-    readonly timestamp: number;
+    readonly date: Date;
     readonly message: string;
     readonly hostname: string;
     readonly processId: number;
@@ -71,7 +71,7 @@ class Logger {
       transport.handle({
         message,
         level,
-        timestamp: Date.now(),
+        date: new Date(),
         hostname: hostname(),
         processId: process.pid,
         context: this._context,

@@ -1,4 +1,3 @@
-import { TimeoutError } from "./error";
 import { Level, TLogLevel } from "./level";
 import { TLogEntry } from "./logger";
 

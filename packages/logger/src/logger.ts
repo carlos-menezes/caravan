@@ -8,35 +8,54 @@ type TLoggerOptions = {
   readonly transports: Array<Transport>;
 };
 
-type TLogEntry = {
-  readonly level: TLogLevel;
-  readonly timestamp: number;
-  readonly message: string;
-  readonly hostname: string;
-  readonly processId: number;
+type TLoggerContext = Record<string | number | symbol, unknown>;
+
+type TLogEntry<TObject extends Record<string | number | symbol, unknown> = {}> =
+  {
+    readonly level: TLogLevel;
+    readonly timestamp: number;
+    readonly message: string;
+    readonly hostname: string;
+    readonly processId: number;
+    readonly context: TLoggerContext;
+    readonly object?: TObject;
+  };
+
+type TLogParameters<
+  TObject extends Record<string | number | symbol, unknown> = {},
+> = Pick<TLogEntry<TObject>, "level" | "message"> & {
+  readonly object?: TObject;
 };
 
-type TLogParameters = Pick<TLogEntry, "level" | "message">;
+type TForkParameters = {
+  readonly context?: TLoggerContext;
+};
 
 /**
  * Logger class for handling application logging with multiple transports
  */
 class Logger {
   private readonly _options: TLoggerOptions;
+  private readonly _context: TLoggerContext;
 
   /**
    * Creates a new Logger instance
    * @param options - Configuration options for the logger
    */
-  constructor(options: TLoggerOptions) {
-    this._options = options;
-  }
-
-  private _log({ level, message }: TLogParameters) {
-    if (this._options.transports.length === 0) {
+  constructor(options: TLoggerOptions, context: TLoggerContext = {}) {
+    if (options.transports.length === 0) {
       throw new NoTransportsError();
     }
 
+    this._options = options;
+    this._context = context;
+  }
+
+  private _log<TObject extends Record<string | number | symbol, unknown> = {}>({
+    level,
+    message,
+    object,
+  }: TLogParameters<TObject>) {
     for (const transport of this._options.transports) {
       // Check if the current log level is greater than or equal to the logger's level
       const isGlobalLoggable =
@@ -55,6 +74,8 @@ class Logger {
         timestamp: Date.now(),
         hostname: hostname(),
         processId: process.pid,
+        context: this._context,
+        object,
       });
     }
   }
@@ -63,23 +84,45 @@ class Logger {
    * Logs a debug level message
    * @param message - The message to log
    */
-  debug(message: string) {
-    this._log({ message, level: "debug" });
+  debug<TObject extends Record<string | number | symbol, unknown> = {}>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "debug", object });
   }
 
   //#region Shorthand methods for log levels.
-  info(message: string) {
-    this._log({ message, level: "info" });
+  info<TObject extends Record<string | number | symbol, unknown> = {}>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "info", object });
   }
 
-  warn(message: string) {
-    this._log({ message, level: "warn" });
+  warn<TObject extends Record<string | number | symbol, unknown> = {}>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "warn", object });
   }
 
-  error(message: string) {
-    this._log({ message, level: "error" });
+  error<TObject extends Record<string | number | symbol, unknown> = {}>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "error", object });
   }
   //#endregion
+
+  /**
+   * Creates a new Logger instance with the same options and additional bindings
+   * @param parameters - Fork parameters including optional bindings
+   * @returns A new Logger instance
+   */
+  fork({ context = {} }: TForkParameters = {}): Logger {
+    const forkedLogger = new Logger(this._options, context);
+    return forkedLogger;
+  }
 }
 
 export { Logger };

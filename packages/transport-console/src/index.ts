@@ -15,10 +15,26 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     super(options);
   }
 
-  async handle(entry: TLogEntry): Promise<void> {
+  async handle({
+    level,
+    message,
+    object,
+    hostname,
+    processId,
+    timestamp,
+    context,
+  }: TLogEntry): Promise<void> {
     const output = this.options.pretty
-      ? `${entry.timestamp} ${entry.level.padEnd(5)} ${entry.hostname}:${entry.processId} - ${entry.message}`
-      : JSON.stringify(entry);
+      ? `${timestamp} ${level.padEnd(5)} ${hostname}:${processId} - ${message}\n${JSON.stringify({ ...context, ...object }, null, 2)}`
+      : JSON.stringify({
+          level,
+          message,
+          hostname,
+          processId,
+          timestamp,
+          ...context,
+          ...object,
+        });
 
     console.log(output);
   }

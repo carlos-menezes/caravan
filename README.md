@@ -9,7 +9,9 @@ A logger built for anything.
 
 ```sh
 pnpm add @caravan-logger/logger
+
 # you must also install a transport
+# see the Transports section for more information
 pnpm add @caravan-logger/transport-console
 ```
 

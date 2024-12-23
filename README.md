@@ -20,10 +20,14 @@ pnpm add @caravan-logger/transport-console
 ```ts
 import { Logger } from "caravan-logger";
 import { ConsoleTransport } from "@caravan-logger/transport-console";
+import { FileTransport } from "@caravan-logger/transport-file";
 
 const logger = new Logger({
   level: "info",
-  transports: [new ConsoleTransport({ options: { pretty: true } })],
+  transports: [
+    new ConsoleTransport({ options: { pretty: true } }),
+    new FileTransport({ options: { path: "app.log" } }),
+  ],
 });
 
 logger.info("Hello, world!");
@@ -33,7 +37,7 @@ const acmeLogger = logger.fork({ context: { company: "Acme" } });
 acmeLogger.info("Service is running", { service: "acme-service" });
 ```
 
-Will output:
+Will output the following to `stdout`:
 
 ```sh
 2024-12-22T20:30:08.803Z info  Carloss-MacBook-Pro-3.local:43123 - Hello, world!
@@ -46,6 +50,14 @@ Will output:
   "company": "Acme",
   "service": "acme-service"
 }
+```
+
+And will output to the file `app.log`:
+
+```log
+2024-12-23T00:24:45.163Z INFO Carloss-MacBook-Pro-3.local:62812 Hello, world!
+2024-12-23T00:24:45.163Z INFO Carloss-MacBook-Pro-3.local:62812 Hello {"who":"world"}
+2024-12-23T00:24:45.163Z INFO Carloss-MacBook-Pro-3.local:62812 Service is running {"company":"Acme","service":"acme-service"}
 ```
 
 ## Transports

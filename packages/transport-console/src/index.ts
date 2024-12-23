@@ -12,7 +12,7 @@ type TConsoleTransportOptions = {
 
 class ConsoleTransport extends Transport<TConsoleTransportOptions> {
   constructor(
-    options?: TTransportBaseConstructorOptions<TConsoleTransportOptions>
+    options: TTransportBaseConstructorOptions<TConsoleTransportOptions>
   ) {
     super(options);
   }
@@ -27,7 +27,7 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     context,
   }: TLogEntry): Promise<void> {
     const output = this.options.pretty
-      ? this.formatPrettyOutput({
+      ? this._formatPrettyOutput({
           level,
           message,
           object,
@@ -49,7 +49,7 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     console.log(output);
   }
 
-  private formatPrettyOutput({
+  private _formatPrettyOutput({
     level,
     message,
     object,
@@ -58,16 +58,19 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     date,
     context,
   }: TLogEntry): string {
-    const coloredLevel = (levelColors[level] || chalk.white)(level.padEnd(5));
-    const coloredTimestamp = chalk.gray(date.toISOString());
-    const coloredHost = chalk.cyan(`${hostname}:${processId}`);
+    const coloredLevel = (levelColors[level] || chalk.white)(
+      level.toUpperCase()
+    );
+    const coloredTimestamp = date.toISOString();
+    const coloredHost = `${hostname}:${processId}`;
+    const coloredMessage = chalk.cyan(message);
 
     const metadata = { ...context, ...object };
     const prettyMetadata = Object.keys(metadata).length
-      ? "\n" + chalk.gray(JSON.stringify(metadata, null, 2))
+      ? "\n" + JSON.stringify(metadata, null, 2)
       : "";
 
-    return `${coloredTimestamp} ${coloredLevel} ${coloredHost} - ${message}${prettyMetadata}`;
+    return `${coloredTimestamp} ${coloredLevel} ${coloredHost} ${coloredMessage}${prettyMetadata}`;
   }
 }
 

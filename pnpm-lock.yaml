@@ -112,6 +112,33 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
 
+  packages/transport-file:
+    devDependencies:
+      '@caravan-logger/logger':
+        specifier: workspace:*
+        version: link:../logger
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      rollup:
+        specifier: ^4.29.1
+        version: 4.29.1
+      rollup-plugin-dts:
+        specifier: ^6.1.1
+        version: 6.1.1(rollup@4.29.1)(typescript@5.7.2)
+      rollup-plugin-esbuild:
+        specifier: ^6.1.1
+        version: 6.1.1(esbuild@0.23.1)(rollup@4.29.1)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
+
   packages/typescript-config: {}
 
 packages:

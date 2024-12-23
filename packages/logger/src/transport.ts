@@ -5,7 +5,7 @@ type TTransportBaseConstructorOptions<
   TTransportConstructorOptions extends Record<string, unknown> = {},
 > = {
   readonly level?: TLogLevel;
-  readonly options?: TTransportConstructorOptions;
+  readonly options: TTransportConstructorOptions;
 };
 
 type TTransportBaseOptions<
@@ -21,11 +21,9 @@ abstract class Transport<
   private readonly _level: TLogLevel;
   private readonly _options: TTransportOptions;
 
-  constructor(
-    options: TTransportBaseConstructorOptions<TTransportOptions> = {}
-  ) {
+  constructor(options: TTransportBaseConstructorOptions<TTransportOptions>) {
     this._level = options.level ?? Level.default;
-    this._options = options.options ?? ({} as TTransportOptions);
+    this._options = options.options;
   }
 
   get level(): TLogLevel {

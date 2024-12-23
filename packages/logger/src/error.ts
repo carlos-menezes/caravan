@@ -1,10 +1,22 @@
-type TLoggerErrorParameters = {
+type TLoggerErrorParameters<
+  TContext extends Record<string | number | symbol, unknown> = {},
+> = {
   readonly message: string;
+  readonly context?: TContext;
 };
 
-abstract class LoggerError extends Error {
-  constructor({ message }: TLoggerErrorParameters) {
+abstract class LoggerError<
+  TContext extends Record<string | number | symbol, unknown> = {},
+> extends Error {
+  private readonly _context?: TContext;
+
+  constructor({ message, context }: TLoggerErrorParameters<TContext>) {
     super(message);
+    this._context = context;
+  }
+
+  get context(): TContext | undefined {
+    return this._context;
   }
 }
 

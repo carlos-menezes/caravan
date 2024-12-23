@@ -17,7 +17,7 @@ type TLogEntry<TObject extends Record<string | number | symbol, unknown> = {}> =
     readonly message: string;
     readonly hostname: string;
     readonly processId: number;
-    readonly context: TLoggerContext;
+    readonly context?: TLoggerContext;
     readonly object?: TObject;
   };
 
@@ -36,13 +36,13 @@ type TForkParameters = {
  */
 class Logger {
   private readonly _options: TLoggerOptions;
-  private readonly _context: TLoggerContext;
+  private readonly _context?: TLoggerContext;
 
   /**
    * Creates a new Logger instance
    * @param options - Configuration options for the logger
    */
-  constructor(options: TLoggerOptions, context: TLoggerContext = {}) {
+  constructor(options: TLoggerOptions, context?: TLoggerContext) {
     if (options.transports.length === 0) {
       throw new NoTransportsError();
     }
@@ -51,7 +51,7 @@ class Logger {
     this._context = context;
   }
 
-  private _log<TObject extends Record<string | number | symbol, unknown> = {}>({
+  private _log<TObject extends Record<string | number | symbol, unknown>>({
     level,
     message,
     object,
@@ -84,7 +84,7 @@ class Logger {
    * Logs a debug level message
    * @param message - The message to log
    */
-  debug<TObject extends Record<string | number | symbol, unknown> = {}>(
+  debug<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
@@ -92,21 +92,21 @@ class Logger {
   }
 
   //#region Shorthand methods for log levels.
-  info<TObject extends Record<string | number | symbol, unknown> = {}>(
+  info<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
     this._log({ message, level: "info", object });
   }
 
-  warn<TObject extends Record<string | number | symbol, unknown> = {}>(
+  warn<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
     this._log({ message, level: "warn", object });
   }
 
-  error<TObject extends Record<string | number | symbol, unknown> = {}>(
+  error<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
@@ -119,7 +119,7 @@ class Logger {
    * @param parameters - Fork parameters including optional bindings
    * @returns A new Logger instance
    */
-  fork({ context = {} }: TForkParameters = {}): Logger {
+  fork({ context }: TForkParameters): Logger {
     const forkedLogger = new Logger(this._options, context);
     return forkedLogger;
   }

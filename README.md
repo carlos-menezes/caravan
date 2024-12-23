@@ -64,3 +64,4 @@ And will output to the file `app.log`:
 
 - [ConsoleTransport](./packages/transport-console): a transport that logs to the console with optional pretty printing.
 - [FileTransport](./packages/transport-file): a transport that logs to a file.
+- [DatadogTransport](./packages/transport-datadog): a transport that logs to Datadog.

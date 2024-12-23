@@ -8,18 +8,17 @@ type TLoggerOptions = {
   readonly transports: Array<Transport>;
 };
 
-type TLoggerContext = Record<string | number | symbol, unknown>;
+type TExtendedRecord = Record<string | number | symbol, unknown>;
 
-type TLogEntry<TObject extends Record<string | number | symbol, unknown> = {}> =
-  {
-    readonly level: TLogLevel;
-    readonly date: Date;
-    readonly message: string;
-    readonly hostname: string;
-    readonly processId: number;
-    readonly context?: TLoggerContext;
-    readonly object?: TObject;
-  };
+type TLogEntry<TObject extends TExtendedRecord = {}> = {
+  readonly level: TLogLevel;
+  readonly date: Date;
+  readonly message: string;
+  readonly hostname: string;
+  readonly processId: number;
+  readonly context?: TExtendedRecord;
+  readonly object?: TObject;
+};
 
 type TLogParameters<
   TObject extends Record<string | number | symbol, unknown> = {},
@@ -28,7 +27,7 @@ type TLogParameters<
 };
 
 type TForkParameters = {
-  readonly context?: TLoggerContext;
+  readonly context?: TExtendedRecord;
 };
 
 /**
@@ -36,13 +35,13 @@ type TForkParameters = {
  */
 class Logger {
   private readonly _options: TLoggerOptions;
-  private readonly _context?: TLoggerContext;
+  private readonly _context?: TExtendedRecord;
 
   /**
    * Creates a new Logger instance
    * @param options - Configuration options for the logger
    */
-  constructor(options: TLoggerOptions, context?: TLoggerContext) {
+  constructor(options: TLoggerOptions, context?: TExtendedRecord) {
     if (options.transports.length === 0) {
       throw new NoTransportsError();
     }

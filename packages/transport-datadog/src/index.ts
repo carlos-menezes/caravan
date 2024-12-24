@@ -57,11 +57,10 @@ class DatadogTransport extends Transport<TDatadogTransportOptions> {
   async handle({
     level,
     message,
-    object,
+    data,
     hostname,
     processId,
-    date,
-    context,
+    time,
   }: TLogEntry): Promise<void> {
     const params: v2.LogsApiSubmitLogRequest = {
       body: [
@@ -74,8 +73,7 @@ class DatadogTransport extends Transport<TDatadogTransportOptions> {
           additionalProperties: {
             processId,
             level: level.toUpperCase(),
-            ...object,
-            ...context,
+            ...data,
           },
         },
       ],
@@ -90,11 +88,10 @@ class DatadogTransport extends Transport<TDatadogTransportOptions> {
         log: {
           level,
           message,
-          object,
+          data,
           hostname,
           processId,
-          date,
-          context,
+          time,
         },
       });
     }

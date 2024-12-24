@@ -22,8 +22,8 @@ abstract class Transport<
   private readonly _options: TTransportOptions;
 
   constructor(options: TTransportBaseConstructorOptions<TTransportOptions>) {
-    this._level = options.level ?? Level.default;
-    this._options = options.options;
+    this._level = options?.level ?? Level.default;
+    this._options = options?.options;
   }
 
   get level(): TLogLevel {

@@ -2,22 +2,25 @@ import { NoTransportsError } from "./error";
 import { LogLevelMap, TLogLevel } from "./level";
 import { Transport } from "./transport";
 import { hostname } from "os";
+import fastRedact, { RedactOptions } from "fast-redact";
 
 type TLoggerOptions = {
   readonly level: TLogLevel;
   readonly transports: Array<Transport>;
+  readonly redact?: RedactOptions;
 };
 
 type TExtendedRecord = Record<string | number | symbol, unknown>;
 
 type TLogEntry<TObject extends TExtendedRecord = {}> = {
   readonly level: TLogLevel;
-  readonly date: Date;
+  readonly time: Date;
   readonly message: string;
   readonly hostname: string;
   readonly processId: number;
-  readonly context?: TExtendedRecord;
-  readonly object?: TObject;
+  readonly data?: TObject;
+  //readonly context?: TExtendedRecord;
+  //readonly object?: TObject;
 };
 
 type TLogParameters<
@@ -30,12 +33,18 @@ type TForkParameters = {
   readonly context?: TExtendedRecord;
 };
 
+type TMemoized = {
+  hostname: string;
+};
+
 /**
  * Logger class for handling application logging with multiple transports
  */
 class Logger {
   private readonly _options: TLoggerOptions;
+  private readonly _memoized: TMemoized;
   private readonly _context?: TExtendedRecord;
+  private readonly _redact?: ReturnType<typeof fastRedact>;
 
   /**
    * Creates a new Logger instance
@@ -48,6 +57,13 @@ class Logger {
 
     this._options = options;
     this._context = context;
+    this._memoized = {
+      hostname: hostname(),
+    };
+
+    if (options.redact) {
+      this._redact = fastRedact({ ...options.redact, serialize: false });
+    }
   }
 
   private _log<TObject extends Record<string | number | symbol, unknown>>({
@@ -70,11 +86,21 @@ class Logger {
       transport.handle({
         message,
         level,
-        date: new Date(),
-        hostname: hostname(),
+        time: new Date(),
+        hostname: this._memoized.hostname,
         processId: process.pid,
-        context: this._context,
-        object,
+        data:
+          object || this._context
+            ? this._redact
+              ? this._redact({
+                  ...object,
+                  ...this._context,
+                })
+              : {
+                  ...object,
+                  ...this._context,
+                }
+            : undefined,
       });
     }
   }
@@ -87,7 +113,7 @@ class Logger {
     message: string,
     object?: TObject
   ) {
-    this._log({ message, level: "debug", object });
+    this._log({ message, level: "DEBUG", object });
   }
 
   //#region Shorthand methods for log levels.
@@ -95,21 +121,21 @@ class Logger {
     message: string,
     object?: TObject
   ) {
-    this._log({ message, level: "info", object });
+    this._log({ message, level: "INFO", object });
   }
 
   warn<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
-    this._log({ message, level: "warn", object });
+    this._log({ message, level: "WARN", object });
   }
 
   error<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
   ) {
-    this._log({ message, level: "error", object });
+    this._log({ message, level: "ERROR", object });
   }
   //#endregion
 

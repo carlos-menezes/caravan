@@ -40,15 +40,13 @@ class FileTransport extends Transport<TFileTransportOptions> {
   async handle({
     level,
     message,
-    object,
     hostname,
     processId,
-    date,
-    context,
+    time,
+    data,
   }: TLogEntry): Promise<void> {
-    const metadata =
-      context || object ? JSON.stringify({ ...context, ...object }) : "";
-    const output = `${date.toISOString()} ${level.toUpperCase()} ${hostname}:${processId} ${message} ${metadata}\n`;
+    const object = data ? JSON.stringify(data) : "";
+    const output = `${time.toISOString()} ${level.toUpperCase()} ${hostname}:${processId} ${message} ${object}\n`;
 
     try {
       await writeFile(this.options.path, output, { flag: "a" });
@@ -56,7 +54,7 @@ class FileTransport extends Transport<TFileTransportOptions> {
       if (error instanceof Error) {
         await this.options.hooks?.onError?.({
           error,
-          log: { level, message, object, hostname, processId, date, context },
+          log: { level, message, data, hostname, processId, time },
         });
       }
     }

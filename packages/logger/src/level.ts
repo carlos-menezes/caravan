@@ -1,21 +1,21 @@
-type TLogLevel = "debug" | "info" | "warn" | "error";
+const LogLevels = {
+  DEBUG: 0,
+  INFO: 1,
+  WARN: 2,
+  ERROR: 3,
+} as const;
 
-const LogLevelMap = {
-  debug: 0,
-  info: 1,
-  warn: 2,
-  error: 3,
-} as const satisfies Record<TLogLevel, number>;
+type TLogLevel = keyof typeof LogLevels;
 
 class Level {
   static getValue(level: TLogLevel) {
-    return LogLevelMap[level];
+    return LogLevels[level];
   }
 
   static get default(): TLogLevel {
-    return "debug";
+    return "DEBUG";
   }
 }
 
-export { LogLevelMap, Level };
+export { LogLevels as LogLevelMap, Level };
 export type { TLogLevel };

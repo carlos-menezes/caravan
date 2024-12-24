@@ -20,30 +20,27 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
   async handle({
     level,
     message,
-    object,
+    data,
     hostname,
     processId,
-    date,
-    context,
+    time,
   }: TLogEntry): Promise<void> {
     const output = this.options.pretty
       ? this._formatPrettyOutput({
           level,
           message,
-          object,
+          ...data,
           hostname,
           processId,
-          date,
-          context,
+          time,
         })
       : JSON.stringify({
           level,
           message,
           hostname,
           processId,
-          date,
-          ...context,
-          ...object,
+          time,
+          ...data,
         });
 
     console.log(output);
@@ -52,23 +49,17 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
   private _formatPrettyOutput({
     level,
     message,
-    object,
+    data,
     hostname,
     processId,
-    date,
-    context,
+    time,
   }: TLogEntry): string {
-    const coloredLevel = (levelColors[level] || chalk.white)(
-      level.toUpperCase()
-    );
-    const coloredTimestamp = date.toISOString();
+    const coloredLevel = (levelColors[level] || chalk.white)(level);
+    const coloredTimestamp = time.toISOString();
     const coloredHost = `${hostname}:${processId}`;
     const coloredMessage = chalk.cyan(message);
 
-    const metadata = { ...context, ...object };
-    const prettyMetadata = Object.keys(metadata).length
-      ? "\n" + JSON.stringify(metadata, null, 2)
-      : "";
+    const prettyMetadata = data ? "\n" + JSON.stringify(data, null, 2) : "";
 
     return `${coloredTimestamp} ${coloredLevel} ${coloredHost} ${coloredMessage}${prettyMetadata}`;
   }

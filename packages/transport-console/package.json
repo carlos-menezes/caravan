@@ -1,9 +1,9 @@
 {
   "name": "@caravan-logger/transport-console",
   "version": "0.0.1",
+  "private": false,
   "description": "",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "clear": "rimraf build/compiled/*",

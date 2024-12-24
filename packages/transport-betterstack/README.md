@@ -17,7 +17,7 @@ import { Logger } from "@caravan-logger/logger";
 import { BetterStackTransport } from "@caravan-logger/transport-betterstack";
 
 const logger = new Logger({
-  level: "info",
+  level: "INFO",
   transports: [
     new BetterStackTransport({
       options: {

@@ -17,7 +17,7 @@ import { Logger } from "@caravan-logger/logger";
 import { DatadogTransport } from "@caravan-logger/transport-datadog";
 
 const logger = new Logger({
-  level: "info",
+  level: "INFO",
   transports: [
     new DatadogTransport({
       options: {

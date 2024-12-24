@@ -23,7 +23,7 @@ import { Logger } from "@caravan-logger/logger";
 import { FileTransport } from "@caravan-logger/transport-file";
 
 const logger = new Logger({
-  level: "info",
+  level: "INFO",
   transports: [
     new FileTransport({
       options: {

@@ -31,7 +31,7 @@ import { Logger } from "@caravan-logger/logger";
 import { ConsoleTransport } from "@caravan-logger/transport-console";
 
 const logger = new Logger({
-  level: "info",
+  level: "INFO",
   transports: [
     new ConsoleTransport({
       options: { pretty: true },
@@ -83,7 +83,7 @@ You can configure sensitive data redaction:
 
 ```ts
 const logger = new Logger({
-  level: "info",
+  level: "INFO",
   transports: [new ConsoleTransport({ options: { pretty: true } })],
   redact: {
     paths: ["password", "creditCard.number"],

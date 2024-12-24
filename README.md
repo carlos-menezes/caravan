@@ -22,6 +22,7 @@ pnpm add @caravan-logger/logger
 pnpm add @caravan-logger/transport-console
 pnpm add @caravan-logger/transport-file
 pnpm add @caravan-logger/transport-datadog
+pnpm add @caravan-logger/transport-betterstack
 ```
 
 ## Usage

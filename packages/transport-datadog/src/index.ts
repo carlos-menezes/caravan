@@ -6,6 +6,7 @@ import {
 } from "@caravan-logger/logger";
 import { client, v2 } from "@datadog/datadog-api-client";
 import { CouldNotWriteToDatadogError, DatadogError } from "./error";
+import { ApiException } from "@datadog/datadog-api-client/dist/packages/datadog-api-client-common";
 
 type TOnErrorHookParameters = {
   readonly error: DatadogError;
@@ -84,7 +85,9 @@ class DatadogTransport extends Transport<TDatadogTransportOptions> {
       await this._datadogApi.submitLog(params, this._datadogConfiguration);
     } catch (error) {
       this.options.hooks?.onError?.({
-        error: new CouldNotWriteToDatadogError({ internalError: error }),
+        error: new CouldNotWriteToDatadogError({
+          statusCode: (error as ApiException<unknown>).code,
+        }),
         log: {
           level,
           message,

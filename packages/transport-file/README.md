@@ -11,7 +11,7 @@ pnpm add @caravan-logger/transport-file
 ## Usage
 
 ```typescript
-import { Logger } from "caravan-logger";
+import { Logger } from "@caravan-logger/logger";
 import { FileTransport } from "@caravan-logger/transport-file";
 
 const logger = new Logger({

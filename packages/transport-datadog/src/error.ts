@@ -1,12 +1,12 @@
 import { LoggerError } from "@caravan-logger/logger";
 
 type TDatadogErrorContext = {
-  readonly internalError: any;
+  readonly statusCode: number;
 };
 
 type TDatadogErrorConstructorParameters = {
   readonly message: string;
-  readonly context?: TDatadogErrorContext;
+  readonly context: TDatadogErrorContext;
 };
 
 abstract class DatadogError extends LoggerError<TDatadogErrorContext> {
@@ -15,15 +15,11 @@ abstract class DatadogError extends LoggerError<TDatadogErrorContext> {
   }
 }
 
-type TCouldNotWriteToDatadogErrorContext = {
-  readonly internalError: any;
-};
-
 class CouldNotWriteToDatadogError extends DatadogError {
-  constructor({ internalError }: TCouldNotWriteToDatadogErrorContext) {
+  constructor({ statusCode }: TDatadogErrorContext) {
     super({
       message: `Could not write to Datadog.`,
-      context: { internalError },
+      context: { statusCode },
     });
   }
 }

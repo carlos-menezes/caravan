@@ -12,7 +12,7 @@ type TLoggerOptions = {
 
 type TExtendedRecord = Record<string | number | symbol, unknown>;
 
-type TLogEntry<TObject extends TExtendedRecord = {}> = {
+type TLogEntry<TObject extends TExtendedRecord = TExtendedRecord> = {
   readonly level: TLogLevel;
   readonly time: Date;
   readonly message: string;
@@ -92,7 +92,7 @@ class Logger {
         data:
           object || this._context
             ? this._redact
-              ? this._redact({
+              ? <TExtendedRecord>this._redact<TExtendedRecord>({
                   ...object,
                   ...this._context,
                 })

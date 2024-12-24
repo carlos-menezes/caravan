@@ -11,7 +11,7 @@ pnpm add @caravan-logger/transport-datadog
 ## Usage
 
 ```typescript
-import { Logger } from "caravan-logger";
+import { Logger } from "@caravan-logger/logger";
 import { DatadogTransport } from "@caravan-logger/transport-datadog";
 
 const logger = new Logger({

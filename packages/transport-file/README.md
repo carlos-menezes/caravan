@@ -2,6 +2,14 @@
 
 A transport for logging to a file.
 
+```txt
+2024-12-24T20:55:49.850Z DEBUG Carloss-MacBook-Pro-3.local:21459 Hello, debug level! {"tech":"caravan"}
+2024-12-24T20:55:49.850Z INFO Carloss-MacBook-Pro-3.local:21459 Hello, info level! {"tech":"caravan"}
+2024-12-24T20:55:49.850Z WARN Carloss-MacBook-Pro-3.local:21459 Hello, warn level! {"tech":"caravan"}
+2024-12-24T20:55:49.850Z ERROR Carloss-MacBook-Pro-3.local:21459 Hello, error level! {"tech":"caravan"}
+2024-12-24T20:55:49.850Z FATAL Carloss-MacBook-Pro-3.local:21459 Hello, fatal level! {"tech":"caravan"}
+```
+
 ## Installation
 
 ```bash

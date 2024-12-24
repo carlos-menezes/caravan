@@ -1,6 +1,8 @@
 # `@caravan-logger/transport-datadog`
 
-A transport for logging to Datadog.
+A transport for logging to DataDog.
+
+![Datadog dashboard](https://i.imgur.com/2U1Or2f.png)
 
 ## Installation
 

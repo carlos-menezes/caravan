@@ -1,6 +1,8 @@
-# `@caravan-logger/transport-datadog`
+# `@caravan-logger/transport-betterstack`
 
-A transport for logging to Datadog.
+A transport for logging to BetterStack.
+
+![BetterStack dashboard](https://i.imgur.com/WxibpAy.png)
 
 ## Installation
 

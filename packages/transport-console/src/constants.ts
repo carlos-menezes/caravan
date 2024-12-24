@@ -2,10 +2,12 @@ import { TLogLevel } from "@caravan-logger/logger/dist/level";
 import chalk, { ChalkInstance } from "chalk";
 
 const levelColors = {
-  ERROR: chalk.bgRed,
-  WARN: chalk.bgYellow,
-  INFO: chalk.bgGreenBright,
-  DEBUG: chalk.bgGray,
+  TRACE: chalk.gray,
+  DEBUG: chalk.blue,
+  INFO: chalk.green,
+  WARN: chalk.yellow,
+  ERROR: chalk.redBright,
+  FATAL: chalk.red,
 } as const satisfies Record<TLogLevel, ChalkInstance>;
 
 export { levelColors };

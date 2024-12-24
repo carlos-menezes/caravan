@@ -57,10 +57,12 @@ logger.info("User logged in", { userId: "123", ip: "192.168.1.1" });
 
 #### Log Levels
 
-- `DEBUG`: Detailed information for debugging.
-- `INFO`: General information about the application's operation.
-- `WARN`: Potential issues or unexpected behavior.
-- `ERROR`: Serious errors that require immediate attention.
+- `TRACE`: extremely detailed diagnostic information showing every step of execution.
+- `DEBUG`: detailed information useful for development and troubleshooting.
+- `INFO`: general operational messages about program state and execution flow.
+- `WARN`: potentially harmful situations that don't prevent normal operation.
+- `ERROR`: issues preventing specific functionality from working properly.
+- `FATAL`: critical failures that stop core business functions from operating.
 
 Each transport can have its own minimum log level, and the logger itself can have a global minimum level.
 

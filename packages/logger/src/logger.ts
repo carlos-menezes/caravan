@@ -106,9 +106,17 @@ class Logger {
   }
 
   /**
-   * Logs a debug level message
+   * Logs a trace level message
    * @param message - The message to log
    */
+  trace<TObject extends Record<string | number | symbol, unknown>>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "TRACE", object });
+  }
+
+  //#region Shorthand methods for log levels.
   debug<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
@@ -116,7 +124,6 @@ class Logger {
     this._log({ message, level: "DEBUG", object });
   }
 
-  //#region Shorthand methods for log levels.
   info<TObject extends Record<string | number | symbol, unknown>>(
     message: string,
     object?: TObject
@@ -136,6 +143,13 @@ class Logger {
     object?: TObject
   ) {
     this._log({ message, level: "ERROR", object });
+  }
+
+  fatal<TObject extends Record<string | number | symbol, unknown>>(
+    message: string,
+    object?: TObject
+  ) {
+    this._log({ message, level: "FATAL", object });
   }
   //#endregion
 

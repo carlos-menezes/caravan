@@ -1,4 +1,5 @@
 import {
+  Level,
   Transport,
   type TLogEntry,
   type TTransportBaseConstructorOptions,
@@ -29,7 +30,7 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
       ? this._formatPrettyOutput({
           level,
           message,
-          ...data,
+          data,
           hostname,
           processId,
           time,
@@ -54,7 +55,9 @@ class ConsoleTransport extends Transport<TConsoleTransportOptions> {
     processId,
     time,
   }: TLogEntry): string {
-    const coloredLevel = (levelColors[level] || chalk.white)(level);
+    const coloredLevel = (levelColors[level] || chalk.white)(
+      level.padEnd(Level.maximumLevelLength)
+    );
     const coloredTimestamp = time.toISOString();
     const coloredHost = `${hostname}:${processId}`;
     const coloredMessage = chalk.cyan(message);

@@ -1,6 +1,7 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "outDir": "dist"
   },
   "include": ["src/**/*.ts"]

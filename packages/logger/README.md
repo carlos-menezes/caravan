@@ -1,5 +1,7 @@
 # caravan 🚍
 
+![NPM Last Update](https://img.shields.io/npm/v/@caravan-logger/logger) ![NPM Last Update](https://img.shields.io/npm/last-update/@caravan-logger/logger) ![NPM Last Update](https://img.shields.io/npm/l/@caravan-logger/logger)
+
 A flexible, transport-based logging system for JavaScript/TypeScript applications.
 
 ## Features

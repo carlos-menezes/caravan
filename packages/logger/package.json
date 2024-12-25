@@ -1,8 +1,9 @@
 {
   "name": "@caravan-logger/logger",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "private": false,
   "publishConfig": {
@@ -13,8 +14,9 @@
   ],
   "scripts": {
     "prepublishOnly": "pnpm run build",
-    "clear": "rimraf build/compiled/*",
-    "build": "pnpm run clear && rollup -c"
+    "clear": "rimraf dist/*",
+    "build": "pnpm run clear && tsup",
+    "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --declaration"
   },
   "keywords": [],
   "author": "",
@@ -23,11 +25,11 @@
     "@repo/typescript-config": "workspace:*",
     "@types/fast-redact": "^3.0.4",
     "@types/node": "^22.10.2",
+    "fast-redact": "^3.5.0",
     "rimraf": "^6.0.1",
     "rollup": "^4.29.1",
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-esbuild": "^6.1.1",
-    "typescript": "^5.7.2",
-    "fast-redact": "^3.5.0"
+    "typescript": "^5.7.2"
   }
 }

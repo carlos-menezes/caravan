@@ -1,6 +1,6 @@
 {
   "name": "@caravan-logger/transport-datadog",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -13,8 +13,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "pnpm run build",
-    "clear": "rimraf build/compiled/*",
-    "build": "pnpm run clear && rollup -c"
+    "clear": "rimraf dist/*",
+    "build": "pnpm run clear && tsup",
+    "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --declaration"
   },
   "devDependencies": {
     "@caravan-logger/logger": "workspace:*",

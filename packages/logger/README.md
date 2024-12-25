@@ -48,10 +48,10 @@ logger.info("User logged in", { userId: "123", ip: "192.168.1.1" });
 
 ## Transports
 
-- [ConsoleTransport](./packages/transport-console): a transport that logs to the console with optional pretty printing.
-- [FileTransport](./packages/transport-file): a transport that logs to a file.
-- [DatadogTransport](./packages/transport-datadog): a transport that logs to Datadog.
-- [BetterStackTransport](./packages/transport-betterstack): a transport that logs to BetterStack.
+- `ConsoleTransport`: a transport that logs to the console with optional pretty printing.
+- `FileTransport`: a transport that logs to a file.
+- `DatadogTransport`: a transport that logs to Datadog.
+- `BetterStackTransport`: a transport that logs to BetterStack.
 
 ## Features
 

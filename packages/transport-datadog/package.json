@@ -1,10 +1,13 @@
 {
   "name": "@caravan-logger/transport-datadog",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "publishConfig": {
     "access": "public"
   },
+  "files": [
+    "dist"
+  ],
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

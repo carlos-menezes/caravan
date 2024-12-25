@@ -1,6 +1,6 @@
 {
   "name": "@caravan-logger/transport-betterstack",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -10,6 +10,7 @@
   ],
   "description": "",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublishOnly": "pnpm run build",

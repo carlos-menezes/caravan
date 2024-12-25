@@ -1,0 +1,29 @@
+{
+  "name": "@caravan-logger/logger",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "clear": "rimraf build/compiled/*",
+    "build": "pnpm run clear && rollup -c"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/fast-redact": "^3.0.4",
+    "@types/node": "^22.10.2",
+    "rimraf": "^6.0.1",
+    "rollup": "^4.29.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-esbuild": "^6.1.1",
+    "typescript": "^5.7.2",
+    "fast-redact": "^3.5.0"
+  }
+}

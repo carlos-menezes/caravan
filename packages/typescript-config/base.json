@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": false,
+    "lib": ["ES2017"],
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ESNext",
+    "removeComments": false,
+    "noEmitOnError": true,
+  },
+  "include": ["src"]
+}

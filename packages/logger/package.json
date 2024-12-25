@@ -12,6 +12,7 @@
     "dist"
   ],
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "clear": "rimraf build/compiled/*",
     "build": "pnpm run clear && rollup -c"
   },

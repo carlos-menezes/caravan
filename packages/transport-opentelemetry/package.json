@@ -1,0 +1,35 @@
+{
+  "name": "@caravan-logger/transport-opentelemetry",
+  "version": "0.3.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "pnpm run build",
+    "clear": "rimraf dist/*",
+    "build": "pnpm run clear && tsup",
+    "build:types": "tsc --project tsconfig.json --emitDeclarationOnly --declaration"
+  },
+  "devDependencies": {
+    "@caravan-logger/logger": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^22.10.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.7.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@opentelemetry/api-logs": "^0.57.0",
+    "otlp-logger": "^1.1.7"
+  }
+}

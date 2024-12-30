@@ -6,6 +6,16 @@ import {
 import { RESTPostAPIWebhookWithTokenJSONBody } from "discord-api-types/v10";
 import { ColorMap } from "./transforms";
 import { TLogLevel } from "@caravan-logger/logger/dist/level";
+import {
+  CouldNotFetchDiscordError,
+  CouldNotWriteToDiscordError,
+  DiscordError,
+} from "./error";
+
+type TOnErrorHookParameters = {
+  readonly error: DiscordError;
+  readonly log: TLogEntry;
+};
 
 type TDiscordTransportOptions = {
   webhook: {
@@ -17,6 +27,12 @@ type TDiscordTransportOptions = {
     avatarUrl?: string;
     title?: string;
     colors?: Partial<Record<TLogLevel, number>>;
+  };
+  readonly hooks?: {
+    readonly onError?: ({
+      error,
+      log,
+    }: TOnErrorHookParameters) => Promise<void>;
   };
 };
 
@@ -43,14 +59,28 @@ class DiscordTransport extends Transport<TDiscordTransportOptions> {
   async handle(entry: TLogEntry): Promise<void> {
     const log = this._transform({ entry, options: this.options });
 
-    const response = await fetch(this._url, {
-      method: "POST",
-      body: JSON.stringify(log),
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      const response = await fetch(this._url, {
+        method: "POST",
+        body: JSON.stringify(log),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!response.ok) {
-      console.error(response);
+      if (!response.ok) {
+        this.options.hooks?.onError?.({
+          error: new CouldNotWriteToDiscordError({
+            statusCode: response.status,
+          }),
+          log: entry,
+        });
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        this.options.hooks?.onError?.({
+          error: new CouldNotFetchDiscordError({ error }),
+          log: entry,
+        });
+      }
     }
   }
 

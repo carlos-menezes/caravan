@@ -1,22 +1,22 @@
 import { Level, TLogLevel } from "./level";
-import { TLogEntry } from "./logger";
+import { TExtendedRecord, TLogEntry } from "./logger";
 
 type TTransportBaseConstructorOptions<
-  TTransportConstructorOptions extends Record<string, unknown> = {},
+  TTransportConstructorOptions extends TExtendedRecord = TExtendedRecord,
 > = {
   readonly level?: TLogLevel;
   readonly options: TTransportConstructorOptions;
 };
 
 type TTransportBaseOptions<
-  TTransportOptions extends Record<string, unknown> = {},
+  TTransportOptions extends TExtendedRecord = TExtendedRecord,
 > = {
   readonly level: TLogLevel;
   readonly options: TTransportOptions;
 };
 
 abstract class Transport<
-  TTransportOptions extends Record<string, unknown> = {},
+  TTransportOptions extends TExtendedRecord = TExtendedRecord,
 > {
   private readonly _level: TLogLevel;
   private readonly _options: TTransportOptions;

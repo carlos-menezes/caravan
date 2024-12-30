@@ -3,14 +3,13 @@ import { LogLevelMap, TLogLevel } from "./level";
 import { Transport } from "./transport";
 import { hostname } from "os";
 import fastRedact, { RedactOptions } from "fast-redact";
+import { TExtendedRecord } from "./types";
 
 type TLoggerOptions = {
   readonly level: TLogLevel;
   readonly transports: Array<Transport>;
   readonly redact?: RedactOptions;
 };
-
-type TExtendedRecord = Record<string | number | symbol, unknown>;
 
 type TLogEntry<TObject extends TExtendedRecord = TExtendedRecord> = {
   readonly level: TLogLevel;
@@ -19,13 +18,12 @@ type TLogEntry<TObject extends TExtendedRecord = TExtendedRecord> = {
   readonly hostname: string;
   readonly processId: number;
   readonly data?: TObject;
-  //readonly context?: TExtendedRecord;
-  //readonly object?: TObject;
 };
 
-type TLogParameters<
-  TObject extends Record<string | number | symbol, unknown> = {},
-> = Pick<TLogEntry<TObject>, "level" | "message"> & {
+type TLogParameters<TObject extends TExtendedRecord = TExtendedRecord> = Pick<
+  TLogEntry<TObject>,
+  "level" | "message"
+> & {
   readonly object?: TObject;
 };
 
@@ -66,7 +64,7 @@ class Logger {
     }
   }
 
-  private _log<TObject extends Record<string | number | symbol, unknown>>({
+  private _log<TObject extends TExtendedRecord = TExtendedRecord>({
     level,
     message,
     object,
@@ -109,46 +107,28 @@ class Logger {
    * Logs a trace level message
    * @param message - The message to log
    */
-  trace<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  trace<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "TRACE", object });
   }
 
   //#region Shorthand methods for log levels.
-  debug<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  debug<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "DEBUG", object });
   }
 
-  info<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  info<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "INFO", object });
   }
 
-  warn<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  warn<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "WARN", object });
   }
 
-  error<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  error<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "ERROR", object });
   }
 
-  fatal<TObject extends Record<string | number | symbol, unknown>>(
-    message: string,
-    object?: TObject
-  ) {
+  fatal<TObject extends TExtendedRecord>(message: string, object?: TObject) {
     this._log({ message, level: "FATAL", object });
   }
   //#endregion
@@ -165,4 +145,4 @@ class Logger {
 }
 
 export { Logger };
-export type { TLogEntry };
+export type { TLogEntry, TExtendedRecord };

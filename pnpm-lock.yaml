@@ -142,6 +142,27 @@ importers:
         specifier: ^5.7.2
         version: 5.7.2
 
+  packages/transport-discord:
+    devDependencies:
+      '@caravan-logger/logger':
+        specifier: workspace:*
+        version: link:../logger
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.10.2
+      discord-api-types:
+        specifier: ^0.37.114
+        version: 0.37.114
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.2
+
   packages/transport-file:
     devDependencies:
       '@caravan-logger/logger':
@@ -928,6 +949,9 @@ packages:
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
+
+  discord-api-types@0.37.114:
+    resolution: {integrity: sha512-9b9oOpktWSmE6ooToc46wfw151SHC/+idmnZvtwpEzW85BijUspQxj4W2uOmo+nZVTdEyb3fku58k+4rHKpdSQ==}
 
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
@@ -2626,6 +2650,8 @@ snapshots:
       object-keys: 1.1.1
 
   delayed-stream@1.0.0: {}
+
+  discord-api-types@0.37.114: {}
 
   doctrine@2.1.0:
     dependencies:

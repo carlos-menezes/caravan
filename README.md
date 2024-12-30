@@ -20,6 +20,8 @@ pnpm add @caravan-logger/transport-console
 pnpm add @caravan-logger/transport-file
 pnpm add @caravan-logger/transport-datadog
 pnpm add @caravan-logger/transport-betterstack
+pnpm add @caravan-logger/transport-opentelemetry
+pnpm add @caravan-logger/transport-discord
 ```
 
 ## Usage
@@ -43,13 +45,6 @@ logger.info("Hello, world!");
 // Logging with metadata
 logger.info("User logged in", { userId: "123", ip: "192.168.1.1" });
 ```
-
-## Transports
-
-- [ConsoleTransport](./packages/transport-console): a transport that logs to the console with optional pretty printing.
-- [FileTransport](./packages/transport-file): a transport that logs to a file.
-- [DatadogTransport](./packages/transport-datadog): a transport that logs to Datadog.
-- [BetterStackTransport](./packages/transport-betterstack): a transport that logs to BetterStack.
 
 ## Features
 

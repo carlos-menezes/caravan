@@ -1,7 +1,5 @@
 # caravan 🚍
 
-![NPM Last Update](https://img.shields.io/npm/v/@caravan-logger/logger) ![NPM Last Update](https://img.shields.io/npm/last-update/@caravan-logger/logger) ![NPM Last Update](https://img.shields.io/npm/l/@caravan-logger/logger)
-
 A flexible, transport-based logging system for JavaScript/TypeScript applications.
 
 ## Features
@@ -22,6 +20,8 @@ pnpm add @caravan-logger/transport-console
 pnpm add @caravan-logger/transport-file
 pnpm add @caravan-logger/transport-datadog
 pnpm add @caravan-logger/transport-betterstack
+pnpm add @caravan-logger/transport-opentelemetry
+pnpm add @caravan-logger/transport-discord
 ```
 
 ## Usage
@@ -45,13 +45,6 @@ logger.info("Hello, world!");
 // Logging with metadata
 logger.info("User logged in", { userId: "123", ip: "192.168.1.1" });
 ```
-
-## Transports
-
-- `ConsoleTransport`: a transport that logs to the console with optional pretty printing.
-- `FileTransport`: a transport that logs to a file.
-- `DatadogTransport`: a transport that logs to Datadog.
-- `BetterStackTransport`: a transport that logs to BetterStack.
 
 ## Features
 

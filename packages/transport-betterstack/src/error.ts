@@ -1,7 +1,8 @@
 import { LoggerError } from "@caravan-logger/logger";
 
 type TBetterStackErrorContext = {
-  readonly statusCode: number;
+  readonly statusCode?: number;
+  readonly error?: Error;
 };
 
 type TBetterStackErrorConstructorParameters = {
@@ -16,7 +17,9 @@ abstract class BetterStackError extends LoggerError<TBetterStackErrorContext> {
 }
 
 class CouldNotWriteToBetterStackError extends BetterStackError {
-  constructor({ statusCode }: TBetterStackErrorContext) {
+  constructor({
+    statusCode,
+  }: Required<Pick<TBetterStackErrorContext, "statusCode">>) {
     super({
       message: `Could not write to BetterStack.`,
       context: { statusCode },
@@ -24,4 +27,17 @@ class CouldNotWriteToBetterStackError extends BetterStackError {
   }
 }
 
-export { BetterStackError, CouldNotWriteToBetterStackError };
+class CouldNotFetchBetterStackError extends BetterStackError {
+  constructor({ error }: Required<Pick<TBetterStackErrorContext, "error">>) {
+    super({
+      message: `${error.message}`,
+      context: { error },
+    });
+  }
+}
+
+export {
+  BetterStackError,
+  CouldNotWriteToBetterStackError,
+  CouldNotFetchBetterStackError,
+};

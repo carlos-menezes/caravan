@@ -4,7 +4,11 @@ import {
   type TLogEntry,
   type TTransportBaseConstructorOptions,
 } from "@caravan-logger/logger";
-import { CouldNotWriteToBetterStackError, BetterStackError } from "./error";
+import {
+  CouldNotWriteToBetterStackError,
+  BetterStackError,
+  CouldNotFetchBetterStackError,
+} from "./error";
 
 type TOnErrorHookParameters = {
   readonly error: BetterStackError;
@@ -46,29 +50,46 @@ class BetterStackTransport extends Transport<TBetterStackTransportOptions> {
       processId,
     };
 
-    const request = await fetch("https://in.logs.betterstack.com/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.options.sourceToken}`,
-      },
-      body: JSON.stringify(body),
-    });
-
-    if (!request.ok)
-      this.options.hooks?.onError?.({
-        error: new CouldNotWriteToBetterStackError({
-          statusCode: request.status,
-        }),
-        log: {
-          level,
-          message,
-          data,
-          hostname,
-          processId,
-          time,
+    try {
+      const request = await fetch("https://in.logs.betterstack.com/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.options.sourceToken}`,
         },
+        body: JSON.stringify(body),
       });
+
+      if (!request.ok)
+        this.options.hooks?.onError?.({
+          error: new CouldNotWriteToBetterStackError({
+            statusCode: request.status,
+          }),
+          log: {
+            level,
+            message,
+            data,
+            hostname,
+            processId,
+            time,
+          },
+        });
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        this.options.hooks?.onError?.({
+          error: new CouldNotFetchBetterStackError({ error }),
+          log: {
+            level,
+            message,
+            data,
+            hostname,
+            processId,
+            time,
+          },
+        });
+      }
+    }
   }
 }
 

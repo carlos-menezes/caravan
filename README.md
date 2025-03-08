@@ -4,7 +4,7 @@ A flexible, transport-based logging system for JavaScript/TypeScript application
 
 ## Features
 
-- Multiple transport support (see [Transports](#transports));
+- Multiple transport support;
 - Log level filtering;
 - Context binding through forked loggers;
 - Data redaction capabilities;

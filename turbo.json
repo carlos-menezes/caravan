@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turborepo.dev/schema.json",
+  "tasks": {
+    "prebuild": {
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["^build", "prebuild"],
+      "outputs": ["dist/**"]
+    },
+    "test": {},
+    "//#fmt": {
+      "cache": false
+    },
+    "//#fmt:check": {},
+    "//#lint": {
+      "cache": false
+    },
+    "//#lint:fix": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "extends": "@packages/typescript-config/base.tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "declarationDir": "./dist",
+    "types": ["node"],
+    "declaration": true,
+    "emitDeclarationOnly": true
+  },
+  "include": ["src/**/*.ts"]
+}

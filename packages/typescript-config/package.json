@@ -1,0 +1,7 @@
+{
+  "name": "@packages/typescript-config",
+  "private": true,
+  "exports": {
+    "./base.tsconfig.json": "./base.tsconfig.json"
+  }
+}

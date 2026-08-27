@@ -1,0 +1,10 @@
+{
+  "$schema": "https://www.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext"],
+    "module": "esnext"
+  }
+}

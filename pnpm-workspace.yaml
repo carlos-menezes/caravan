@@ -1,0 +1,30 @@
+packages:
+  - caravan/*
+  - packages/*
+
+allowBuilds:
+  better-sqlite3: true
+
+catalog:
+  typescript: ^7.0.2
+  "@types/node": ^26.2.0
+  rolldown: ^1.2.5
+  vitest: ^4.1.11
+
+minimumReleaseAgeExclude:
+  - "@rolldown/binding-android-arm-eabi@1.2.5"
+  - "@rolldown/binding-android-arm64@1.2.5"
+  - "@rolldown/binding-darwin-arm64@1.2.5"
+  - "@rolldown/binding-darwin-x64@1.2.5"
+  - "@rolldown/binding-freebsd-x64@1.2.5"
+  - "@rolldown/binding-linux-arm-gnueabihf@1.2.5"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.5"
+  - "@rolldown/binding-linux-arm64-musl@1.2.5"
+  - "@rolldown/binding-linux-ppc64-gnu@1.2.5"
+  - "@rolldown/binding-linux-s390x-gnu@1.2.5"
+  - "@rolldown/binding-linux-x64-gnu@1.2.5"
+  - "@rolldown/binding-linux-x64-musl@1.2.5"
+  - "@rolldown/binding-openharmony-arm64@1.2.5"
+  - "@rolldown/binding-win32-arm64-msvc@1.2.5"
+  - "@rolldown/binding-win32-x64-msvc@1.2.5"
+  - rolldown@1.2.5

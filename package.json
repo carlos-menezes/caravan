@@ -1,0 +1,31 @@
+{
+  "name": "caravan",
+  "license": "MIT",
+  "type": "module",
+  "author": "Carlos Menezes <carlos.dm.menezes@gmail.com>",
+  "scripts": {
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "build:caravan": "turbo run build --filter=\"@caravan-logger/**\"",
+    "build:packages": "turbo run build --filter=\"@packages/**\"",
+    "build:examples": "turbo run build --filter=\"@examples/**\"",
+    "build:all": "turbo run build",
+    "test": "turbo run test",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.1",
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
+    "husky": "^9.1.7",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.79.0",
+    "turbo": "^2.10.11"
+  },
+  "packageManager": "pnpm@11.22.0+sha512.1ff870c4c6133dfd88fb2afc46dd13d47f09c9794b438c6fdb47ca98caf3bc16381ee0be93a091b8e3824cf01f889f46d7d9e20910fb0be1ab0fb5baa80dd621",
+  "dependencies": {
+    "lint-staged": "^17.3.0"
+  }
+}

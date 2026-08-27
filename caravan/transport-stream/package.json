@@ -1,0 +1,25 @@
+{
+  "name": "@caravan-logger/transport-stream",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Carlos Menezes <carlos.dm.menezes@gmail.com>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json",
+    "test": "vitest --run"
+  },
+  "devDependencies": {
+    "@caravan-logger/logger": "workspace:*",
+    "@packages/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "rolldown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

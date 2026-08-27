@@ -4,3 +4,6 @@ dist
 
 # playground artifacts
 *.db
+
+# sensitive
+.env

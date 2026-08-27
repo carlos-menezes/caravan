@@ -1,6 +1,6 @@
 {
   "name": "@caravan-logger/transport-better-stack",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "license": "MIT",
   "author": "Carlos Menezes <carlos.dm.menezes@gmail.com>",
   "type": "module",

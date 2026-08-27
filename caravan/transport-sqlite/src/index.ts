@@ -1,5 +1,4 @@
 import {
-  createLogger,
   createTransport,
   type TCreateTransportBaseConfiguration,
   type TLogRecord,

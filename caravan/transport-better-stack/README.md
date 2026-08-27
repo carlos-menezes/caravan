@@ -1,5 +1,7 @@
 # @caravan-logger/transport-better-stack
 
+![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%2Ftransport-better-stack?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%2Ftransport-better-stack?style=flat-square)
+
 A [Caravan](../../README.md) transport that sends log records to
 [Better Stack's Logs ingesting API](https://betterstack.com/docs/logs/http-rest-api/).
 

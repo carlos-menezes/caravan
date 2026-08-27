@@ -1,5 +1,7 @@
 # @caravan-logger/transport-stream
 
+![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%2Ftransport-stream?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%2Ftransport-stream?style=flat-square)
+
 A [Caravan](../../README.md) transport that writes log records to a Node.js
 or web `WritableStream`.
 

@@ -1,5 +1,7 @@
 # @caravan-logger/transport-sqlite
 
+![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%2Ftransport-sqlite?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%2Ftransport-sqlite?style=flat-square)
+
 A [Caravan](../../README.md) transport that inserts log records as rows into
 a SQLite database using [`better-sqlite3`](https://github.com/WiseLibs/better-sqlite3).
 

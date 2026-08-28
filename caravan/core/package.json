@@ -8,8 +8,10 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": ["dist"],
   "scripts": {
-    "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json"
+    "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json",
+    "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
     "@packages/typescript-config": "workspace:*",

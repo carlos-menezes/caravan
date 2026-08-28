@@ -10,9 +10,11 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": ["dist"],
   "scripts": {
     "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json",
-    "test": "vitest --run"
+    "test": "vitest --run",
+    "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
     "@caravan-logger/logger": "workspace:*",

@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "license": "MIT",
   "author": "Carlos Menezes <carlos.dm.menezes@gmail.com>",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "exports": {
     ".": {
@@ -10,14 +13,15 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
   "scripts": {
     "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json",
     "test": "vitest --run",
     "prepublishOnly": "pnpm build"
   },
+  "dependencies": {
+    "@caravan-logger/logger": "workspace:*"
+  },
   "devDependencies": {
-    "@caravan-logger/logger": "workspace:*",
     "@packages/typescript-config": "workspace:*",
     "@types/node": "catalog:",
     "rolldown": "catalog:",

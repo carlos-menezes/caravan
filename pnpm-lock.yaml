@@ -68,10 +68,11 @@ importers:
         version: 7.0.2
 
   caravan/transport-better-stack:
-    devDependencies:
+    dependencies:
       '@caravan-logger/logger':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
       '@packages/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -89,10 +90,11 @@ importers:
         version: 4.1.11(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@2.6.1)(yaml@2.9.0))
 
   caravan/transport-datadog:
-    devDependencies:
+    dependencies:
       '@caravan-logger/logger':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
       '@packages/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -111,13 +113,13 @@ importers:
 
   caravan/transport-sqlite:
     dependencies:
+      '@caravan-logger/logger':
+        specifier: workspace:*
+        version: link:../core
       better-sqlite3:
         specifier: ^13.0.3
         version: 13.0.3
     devDependencies:
-      '@caravan-logger/logger':
-        specifier: workspace:*
-        version: link:../core
       '@packages/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -138,10 +140,11 @@ importers:
         version: 4.1.11(@types/node@26.2.0)(vite@8.2.1(@types/node@26.2.0)(jiti@2.6.1)(yaml@2.9.0))
 
   caravan/transport-stream:
-    devDependencies:
+    dependencies:
       '@caravan-logger/logger':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
       '@packages/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config

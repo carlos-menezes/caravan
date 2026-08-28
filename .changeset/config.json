@@ -3,6 +3,7 @@
   "baseBranch": "master",
   "access": "public",
   "format": "auto",
+  "privatePackages": { "version": false, "tag": false },
   "changelog": [
     "@changesets/changelog-github",
     {

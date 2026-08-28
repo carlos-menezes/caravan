@@ -166,6 +166,17 @@ before your process exits.
 await logger.flush();
 ```
 
+## Benchmarks
+
+Caravan's core is benchmarked against [Pino](https://github.com/pinojs/pino)
+in [`packages/benchmark`](packages/benchmark), covering basic messages,
+messages with context and child loggers. See its
+[README](packages/benchmark/README.md) for methodology and results.
+
+```bash
+pnpm bench
+```
+
 ## Development
 
 This is a pnpm monorepo managed with Turbo.

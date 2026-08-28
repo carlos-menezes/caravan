@@ -9,6 +9,9 @@
       "outputs": ["dist/**"]
     },
     "test": {},
+    "bench": {
+      "cache": false
+    },
     "//#fmt": {
       "cache": false
     },

@@ -13,6 +13,7 @@
     "build:examples": "turbo run build --filter=\"@examples/**\"",
     "build:all": "turbo run build",
     "test": "turbo run test",
+    "bench": "turbo run bench --filter=\"@packages/benchmark\"",
     "prepare": "husky"
   },
   "dependencies": {

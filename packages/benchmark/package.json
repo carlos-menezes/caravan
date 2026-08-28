@@ -1,0 +1,19 @@
+{
+  "name": "@packages/benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "node src/index.ts"
+  },
+  "dependencies": {
+    "@caravan-logger/logger": "workspace:*",
+    "@caravan-logger/transport-stream": "workspace:*"
+  },
+  "devDependencies": {
+    "@packages/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "pino": "^10.3.1",
+    "tinybench": "^6.1.3",
+    "typescript": "catalog:"
+  }
+}

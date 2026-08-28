@@ -1,5 +1,11 @@
 # @caravan-logger/transport-better-stack
 
+## 1.0.1
+
+### Patch Changes
+
+- [`6858967`](https://github.com/carlos-menezes/caravan/commit/6858967006c584d0c2a63f536ef48e34b0e02a9c) Thanks [@carlos-menezes](https://github.com/carlos-menezes)! - chore: fix distributed files
+
 ## 1.0.0
 
 ### Major Changes

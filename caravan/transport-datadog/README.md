@@ -1,6 +1,6 @@
 # @caravan-logger/transport-datadog
 
-![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%2Ftransport-datadog?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%2Ftransport-datadog?style=flat-square)
+![NPM Version](https://img.shields.io/npm/v/%40caravan-logger%2Ftransport-datadog) ![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%2Ftransport-datadog?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%2Ftransport-datadog?style=flat-square)
 
 A [Caravan](../../README.md) transport that sends log records to
 [Datadog's Logs API](https://docs.datadoghq.com/api/latest/logs/).

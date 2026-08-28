@@ -1,6 +1,6 @@
 # @caravan-logger/logger
 
-![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%logger?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%logger?style=flat-square)
+![NPM Version](https://img.shields.io/npm/v/%40caravan-logger%2Flogger) ![NPM Downloads](https://img.shields.io/npm/dw/%40caravan-logger%logger?style=flat-square) ![npm bundle size](https://img.shields.io/bundlephobia/min/%40caravan-logger%logger?style=flat-square)
 
 The core of [Caravan](../../README.md). A small, typed logger that handles
 levels, context and middleware, and dispatches records to pluggable

@@ -1,6 +1,9 @@
 {
   "name": "@caravan-logger/logger",
   "version": "1.0.1",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "exports": {
     ".": {
@@ -8,7 +11,6 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": ["dist"],
   "scripts": {
     "build": "rolldown -c rolldown.config.ts && tsc -p tsconfig.json",
     "prepublishOnly": "pnpm build"

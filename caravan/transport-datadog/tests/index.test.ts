@@ -45,14 +45,9 @@ describe("createDatadogTransport", () => {
     ]);
   });
 
-  it("buffers records until batch size is reached", async () => {
+  it("buffers records until batchSize is reached", async () => {
     const fetch = createMockFetch();
-    const transport = createDatadogTransport({
-      apiKey: "test-key",
-      fetch,
-      batch: true,
-      batchConfiguration: { size: 2 },
-    });
+    const transport = createDatadogTransport({ apiKey: "test-key", fetch, batchSize: 2 });
 
     transport.send({ id: "test-logger", level: "INFO", time: 1, context: {}, message: "one" });
     transport.send({ id: "test-logger", level: "INFO", time: 2, context: {}, message: "two" });
@@ -68,12 +63,7 @@ describe("createDatadogTransport", () => {
 
   it("flush sends any remaining buffered records", async () => {
     const fetch = createMockFetch();
-    const transport = createDatadogTransport({
-      apiKey: "test-key",
-      fetch,
-      batch: true,
-      batchConfiguration: { size: 10 },
-    });
+    const transport = createDatadogTransport({ apiKey: "test-key", fetch, batchSize: 10 });
 
     transport.send({ id: "test-logger", level: "WARN", time: 1, context: {}, message: "hello" });
     await transport.flush();

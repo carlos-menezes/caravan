@@ -43,10 +43,11 @@ be dispatched to its transports; records below it are dropped.
 Context passed to `createLogger` is merged into every record the logger
 writes. Child loggers created with `inherit` pick up the parent's level,
 transports, context and middleware, and can extend the context further
-without mutating the parent.
+without mutating the parent. `id` is optional when inheriting and defaults
+to the parent's `id`; pass one explicitly to give the child its own.
 
 ```ts
-const requestLogger = createLogger("request", {
+const requestLogger = createLogger({
   inherit: { from: logger },
   context: { requestId: "abc-123" },
 });

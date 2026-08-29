@@ -1,6 +1,6 @@
 {
   "name": "@caravan-logger/transport-stream",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "author": "Carlos Menezes <carlos.dm.menezes@gmail.com>",
   "files": [

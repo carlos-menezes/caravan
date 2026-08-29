@@ -1,5 +1,16 @@
 # @caravan-logger/logger
 
+## 1.1.0
+
+### Minor Changes
+
+- [#20](https://github.com/carlos-menezes/caravan/pull/20) [`ac6edf0`](https://github.com/carlos-menezes/caravan/commit/ac6edf0c016467069037bbbde3c1d50d03adce11) Thanks [@carlos-menezes](https://github.com/carlos-menezes)! - feat(core): make `id` optional in `createLogger` when inheriting
+
+  Adds an overload to createLogger so `id` can be omitted when
+  `options.inherit.from` is provided, defaulting to the parent
+  logger's id. Passing an explicit id still works and overrides
+  the parent's id.
+
 ## 1.0.1
 
 ### Patch Changes

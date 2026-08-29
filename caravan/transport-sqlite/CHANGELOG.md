@@ -1,5 +1,12 @@
 # @caravan-logger/transport-sqlite
 
+## 1.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`ac6edf0`](https://github.com/carlos-menezes/caravan/commit/ac6edf0c016467069037bbbde3c1d50d03adce11)]:
+  - @caravan-logger/logger@1.1.0
+
 ## 1.0.2
 
 ### Patch Changes

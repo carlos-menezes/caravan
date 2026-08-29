@@ -51,13 +51,14 @@ describe("createBetterStackTransport", () => {
     ]);
   });
 
-  it("buffers records until batchSize is reached", async () => {
+  it("buffers records until batch size is reached", async () => {
     const fetch = createMockFetch();
     const transport = createBetterStackTransport({
       sourceToken: "test-token",
       endpoint: TEST_ENDPOINT,
       fetch,
-      batchSize: 2,
+      batch: true,
+      batchConfiguration: { size: 2 },
     });
 
     transport.send({ id: "test-logger", level: "INFO", time: 1, context: {}, message: "one" });
@@ -78,7 +79,8 @@ describe("createBetterStackTransport", () => {
       sourceToken: "test-token",
       endpoint: TEST_ENDPOINT,
       fetch,
-      batchSize: 10,
+      batch: true,
+      batchConfiguration: { size: 10 },
     });
 
     transport.send({ id: "test-logger", level: "WARN", time: 1, context: {}, message: "hello" });

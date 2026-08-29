@@ -1,6 +1,8 @@
 import {
+  createBatcher,
   createTransport,
   TLogRecord,
+  type TBatchableConfiguration,
   type TCreateTransportBaseConfiguration,
   type TDefaultLevels,
 } from "@caravan-logger/logger";
@@ -16,30 +18,27 @@ export type TDatadogSite =
   | "ddog-gov.com"
   | (string & {});
 
-export type TCreateDatadogTransportConfiguration = TCreateTransportBaseConfiguration & {
-  /** Datadog API key used to authenticate with the Logs intake API. */
-  apiKey: string;
-  /** Datadog site to send logs to. Defaults to "datadoghq.com". */
-  site?: TDatadogSite;
-  /** Overrides the intake URL entirely, ignoring `site`. Useful for proxies or testing. */
-  url?: string;
-  /** Value reported as `service` on each log entry. */
-  service?: string;
-  /** Value reported as `ddsource` on each log entry. Defaults to "caravan-logger". */
-  ddsource?: string;
-  /** Value reported as `hostname` on each log entry. */
-  hostname?: string;
-  /** Tags applied to every log entry, as a "key:value" array or a key/value record. */
-  tags?: string[] | Record<string, string | number | boolean>;
-  /** Maps a log record to a Datadog log entry. Overrides the default mapping. */
-  format?: (record: TLogRecord) => Record<string, unknown>;
-  /** Number of records buffered before a batch is sent. Defaults to 1 (send immediately). */
-  batchSize?: number;
-  /** Interval, in milliseconds, at which buffered records are sent regardless of `batchSize`. */
-  flushInterval?: number;
-  /** Fetch implementation used to call the Datadog intake API. Defaults to the global `fetch`. */
-  fetch?: typeof fetch;
-};
+export type TCreateDatadogTransportConfiguration = TCreateTransportBaseConfiguration &
+  TBatchableConfiguration & {
+    /** Datadog API key used to authenticate with the Logs intake API. */
+    apiKey: string;
+    /** Datadog site to send logs to. Defaults to "datadoghq.com". */
+    site?: TDatadogSite;
+    /** Overrides the intake URL entirely, ignoring `site`. Useful for proxies or testing. */
+    url?: string;
+    /** Value reported as `service` on each log entry. */
+    service?: string;
+    /** Value reported as `ddsource` on each log entry. Defaults to "caravan-logger". */
+    ddsource?: string;
+    /** Value reported as `hostname` on each log entry. */
+    hostname?: string;
+    /** Tags applied to every log entry, as a "key:value" array or a key/value record. */
+    tags?: string[] | Record<string, string | number | boolean>;
+    /** Maps a log record to a Datadog log entry. Overrides the default mapping. */
+    format?: (record: TLogRecord) => Record<string, unknown>;
+    /** Fetch implementation used to call the Datadog intake API. Defaults to the global `fetch`. */
+    fetch?: typeof fetch;
+  };
 
 const formatTags = (tags: string[] | Record<string, string | number | boolean>): string =>
   Array.isArray(tags)
@@ -75,39 +74,28 @@ export const createDatadogTransport = (configuration: TCreateDatadogTransportCon
   const url =
     configuration.url ??
     `https://http-intake.logs.${configuration.site ?? "datadoghq.com"}/api/v2/logs`;
-  const batchSize = configuration.batchSize ?? 1;
   const fetchImplementation = configuration.fetch ?? fetch;
 
-  let buffer: Record<string, unknown>[] = [];
+  const batcher = createBatcher<Record<string, unknown>>({
+    size: configuration.batchConfiguration?.size ?? configuration.batchSize,
+    flushInterval: configuration.batchConfiguration?.flushInterval ?? configuration.flushInterval,
+    sendBatch: async (batch) => {
+      const response = await fetchImplementation(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "DD-API-KEY": configuration.apiKey,
+        },
+        body: JSON.stringify(batch),
+      });
 
-  const sendBatch = async (): Promise<void> => {
-    if (buffer.length === 0) {
-      return;
-    }
-
-    const batch = buffer;
-    buffer = [];
-
-    const response = await fetchImplementation(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "DD-API-KEY": configuration.apiKey,
-      },
-      body: JSON.stringify(batch),
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `Datadog transport failed to send logs: ${response.status} ${response.statusText}`,
-      );
-    }
-  };
-
-  const timer = configuration.flushInterval
-    ? setInterval(() => void sendBatch(), configuration.flushInterval)
-    : undefined;
-  timer?.unref?.();
+      if (!response.ok) {
+        throw new Error(
+          `Datadog transport failed to send logs: ${response.status} ${response.statusText}`,
+        );
+      }
+    },
+  });
 
   return createTransport<TCreateDatadogTransportConfiguration>(
     {
@@ -115,15 +103,9 @@ export const createDatadogTransport = (configuration: TCreateDatadogTransportCon
         const entry = configuration.format
           ? configuration.format(record)
           : defaultFormat(record, configuration);
-        buffer.push(entry);
-
-        if (buffer.length >= batchSize) {
-          await sendBatch();
-        }
+        await batcher.push(entry);
       },
-      flush: async () => {
-        await sendBatch();
-      },
+      flush: () => batcher.flush(),
     },
     configuration,
   );

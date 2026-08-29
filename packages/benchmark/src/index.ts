@@ -20,8 +20,17 @@ const caravanChild = createLogger("bench-child", {
 });
 
 // base: null drops pino's default pid/hostname bindings, matching caravan's leaner record shape.
-const pinoLogger = pino({ base: null }, pino.destination({ dest: "/dev/null", sync: true }));
-const pinoChild = pinoLogger.child({ module: "bench" });
+// sync: writes on every call, matching a durable-write comparison.
+const pinoSync = pino({ base: null }, pino.destination({ dest: "/dev/null", sync: true }));
+const pinoSyncChild = pinoSync.child({ module: "bench" });
+// async: pino's default SonicBoom buffering, flushed once per batch to match caravan's async model.
+const pinoAsync = pino({ base: null }, pino.destination({ dest: "/dev/null", sync: false }));
+const pinoAsyncChild = pinoAsync.child({ module: "bench" });
+
+const flushPino = (logger: pino.Logger): Promise<void> =>
+  new Promise((resolve, reject) => {
+    logger.flush((error) => (error ? reject(error) : resolve()));
+  });
 
 const bench = new Bench({ time: 500 });
 
@@ -32,9 +41,15 @@ bench
     }
     await caravanLogger.flush();
   })
-  .add("pino - basic message", () => {
+  .add("pino (async) - basic message", async () => {
     for (let i = 0; i < BATCH_SIZE; i++) {
-      pinoLogger.info("hello world");
+      pinoAsync.info("hello world");
+    }
+    await flushPino(pinoAsync);
+  })
+  .add("pino (sync) - basic message", () => {
+    for (let i = 0; i < BATCH_SIZE; i++) {
+      pinoSync.info("hello world");
     }
   })
   .add("caravan - message with context", async () => {
@@ -43,9 +58,15 @@ bench
     }
     await caravanLogger.flush();
   })
-  .add("pino - message with context", () => {
+  .add("pino (async) - message with context", async () => {
     for (let i = 0; i < BATCH_SIZE; i++) {
-      pinoLogger.info(context, "hello world");
+      pinoAsync.info(context, "hello world");
+    }
+    await flushPino(pinoAsync);
+  })
+  .add("pino (sync) - message with context", () => {
+    for (let i = 0; i < BATCH_SIZE; i++) {
+      pinoSync.info(context, "hello world");
     }
   })
   .add("caravan - child logger", async () => {
@@ -54,20 +75,24 @@ bench
     }
     await caravanChild.flush();
   })
-  .add("pino - child logger", () => {
+  .add("pino (async) - child logger", async () => {
     for (let i = 0; i < BATCH_SIZE; i++) {
-      pinoChild.info("hello world");
+      pinoAsyncChild.info("hello world");
+    }
+    await flushPino(pinoAsyncChild);
+  })
+  .add("pino (sync) - child logger", () => {
+    for (let i = 0; i < BATCH_SIZE; i++) {
+      pinoSyncChild.info("hello world");
     }
   });
 
 await bench.run();
 
-// tinybench reports batch throughput, not individual log calls; scale it up and drop the
-// noisy/wide default columns so the table fits the terminal and reads in real log calls/sec.
 const toRow: ConsoleTableConverter = (task) => {
   const result = task.result;
   if (!result || result.state !== "completed") {
-    return { Task: task.name, "Logs/sec": "N/A" };
+    return { Task: task.name, "Logs/sec": "N/A", "Avg batch latency (ms)": "N/A", Samples: "N/A" };
   }
 
   return {

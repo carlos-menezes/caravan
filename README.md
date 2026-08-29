@@ -70,7 +70,7 @@ transports and context, and can extend the context further without mutating
 the parent.
 
 ```ts
-const requestLogger = createLogger("request", {
+const requestLogger = createLogger({
   inherit: { from: logger },
   context: { requestId: "abc-123" },
 });

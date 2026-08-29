@@ -123,8 +123,8 @@ const sendLogRecord = (
   }
 };
 
-/** Creates a logger, optionally inheriting level, transports, context and/or middleware from a parent. */
-export const createLogger = <
+/** Creates a logger with an explicit `id`, optionally inheriting level, transports, context and/or middleware from a parent. */
+export function createLogger<
   TParentLevel extends TDefaultLevels = typeof defaultLevel,
   TLevel extends TDefaultLevels = TParentLevel,
   TContext extends object = object,
@@ -133,8 +133,45 @@ export const createLogger = <
 >(
   id: string,
   options?: TCreateLoggerOptions<TParentLevel, TLevel, TContext, TInheritedContext, TKeepContext>,
-): TLogger<TLevel, TResolvedContext<TContext, TInheritedContext, TKeepContext>> => {
+): TLogger<TLevel, TResolvedContext<TContext, TInheritedContext, TKeepContext>>;
+/** Creates a logger that inherits from a parent, reusing the parent's `id`. */
+export function createLogger<
+  TParentLevel extends TDefaultLevels = typeof defaultLevel,
+  TLevel extends TDefaultLevels = TParentLevel,
+  TContext extends object = object,
+  TInheritedContext extends object = object,
+  TKeepContext extends boolean = true,
+>(
+  options: TCreateLoggerOptions<TParentLevel, TLevel, TContext, TInheritedContext, TKeepContext> & {
+    inherit: TInheritOptions<TParentLevel, TInheritedContext, TKeepContext>;
+  },
+): TLogger<TLevel, TResolvedContext<TContext, TInheritedContext, TKeepContext>>;
+export function createLogger<
+  TParentLevel extends TDefaultLevels = typeof defaultLevel,
+  TLevel extends TDefaultLevels = TParentLevel,
+  TContext extends object = object,
+  TInheritedContext extends object = object,
+  TKeepContext extends boolean = true,
+>(
+  idOrOptions:
+    | string
+    | (TCreateLoggerOptions<TParentLevel, TLevel, TContext, TInheritedContext, TKeepContext> & {
+        inherit: TInheritOptions<TParentLevel, TInheritedContext, TKeepContext>;
+      }),
+  maybeOptions?: TCreateLoggerOptions<
+    TParentLevel,
+    TLevel,
+    TContext,
+    TInheritedContext,
+    TKeepContext
+  >,
+): TLogger<TLevel, TResolvedContext<TContext, TInheritedContext, TKeepContext>> {
+  const options = typeof idOrOptions === "string" ? maybeOptions : idOrOptions;
   const parent = options?.inherit?.from;
+  const id = typeof idOrOptions === "string" ? idOrOptions : parent?.id;
+  if (id === undefined) {
+    throw new Error("createLogger requires an id unless inheriting from a parent logger");
+  }
   const keepTransports = options?.inherit?.transports ?? true;
   const keepContext = options?.inherit?.context ?? true;
   const keepMiddleware = options?.inherit?.middleware ?? true;
@@ -179,4 +216,4 @@ export const createLogger = <
     [TRANSPORTS_SYMBOL]: resolvedOptions.transports,
     [MIDDLEWARE_SYMBOL]: resolvedOptions.middleware,
   };
-};
+}

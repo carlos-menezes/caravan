@@ -14,7 +14,7 @@ const caravanLogger = createLogger("bench", {
   level: "INFO",
   transports: [createStreamTransport({ stream: fs.createWriteStream("/dev/null") })],
 });
-const caravanChild = createLogger("bench-child", {
+const caravanChild = createLogger({
   inherit: { from: caravanLogger },
   context: { module: "bench" },
 });

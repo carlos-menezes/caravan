@@ -6,3 +6,10 @@ export {
   type TTransport,
   type TLogRecord,
 } from "./transport";
+export {
+  createBatcher,
+  type TBatcher,
+  type TBatchConfiguration,
+  type TBatchableConfiguration,
+  type TCreateBatcherConfiguration,
+} from "./batcher";

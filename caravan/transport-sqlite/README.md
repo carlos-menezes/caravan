@@ -59,3 +59,5 @@ configured table (`logs` by default) with the following columns:
 | `batch`              | `boolean`                                          | `false`                                 | Enables buffering records into batch inserts.                                                                                                                         |
 | `batchConfiguration` | `{ size?: number; flushInterval?: number }`        | —                                       | Tunes batching: `size` records buffered before an insert (default `1`), and/or `flushInterval` (ms) to insert regardless of `size`. Only used when `batch` is `true`. |
 | `level`              | `TDefaultLevels`                                   | inherits the logger's level             | Drops records below this level before `write()` runs.                                                                                                                 |
+
+Legacy options `batchSize` and `flushInterval` are still supported but deprecated; prefer `batch: true` with `batchConfiguration`.

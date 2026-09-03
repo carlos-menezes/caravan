@@ -49,3 +49,5 @@ await logger.flush();
 | `batchConfiguration` | `{ size?: number; flushInterval?: number }`               | —                           | Tunes batching: `size` records buffered before a send (default `1`), and/or `flushInterval` (ms) to send regardless of `size`. Only used when `batch` is `true`. |
 | `fetch`              | `typeof fetch`                                            | global `fetch`              | Fetch implementation used to call the intake API.                                                                                                                |
 | `level`              | `TDefaultLevels`                                          | inherits the logger's level | Drops records below this level before `write()` runs.                                                                                                            |
+
+Legacy options `batchSize` and `flushInterval` are still supported but deprecated; prefer `batch: true` with `batchConfiguration`.

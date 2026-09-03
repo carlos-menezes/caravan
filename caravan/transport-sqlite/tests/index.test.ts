@@ -54,7 +54,22 @@ describe("createSqliteTransport", () => {
     expect(selectAll(db)[0]?.context).toBeNull();
   });
 
-  it("buffers records until batchSize is reached", async () => {
+  it("buffers records until batch size is reached", async () => {
+    const db = new Database(":memory:");
+    const transport = createSqliteTransport({ db, batch: true, batchConfiguration: { size: 2 } });
+
+    transport.send({ id: "test-logger", level: "INFO", time: 1, context: {}, message: "one" });
+    expect(selectAll(db)).toHaveLength(0);
+
+    transport.send({ id: "test-logger", level: "INFO", time: 2, context: {}, message: "two" });
+    await Promise.resolve();
+    expect(selectAll(db)).toHaveLength(2);
+
+    await transport.flush();
+    expect(selectAll(db)).toHaveLength(2);
+  });
+
+  it("supports the deprecated batchSize option", async () => {
     const db = new Database(":memory:");
     const transport = createSqliteTransport({ db, batchSize: 2 });
 
@@ -69,7 +84,7 @@ describe("createSqliteTransport", () => {
 
   it("flush inserts any remaining buffered records", async () => {
     const db = new Database(":memory:");
-    const transport = createSqliteTransport({ db, batchSize: 10 });
+    const transport = createSqliteTransport({ db, batch: true, batchConfiguration: { size: 10 } });
 
     transport.send({ id: "test-logger", level: "WARN", time: 1, context: {}, message: "hello" });
     await transport.flush();
@@ -133,7 +148,11 @@ describe("createSqliteTransport", () => {
   it("flushes buffered records on the configured interval", async () => {
     vi.useFakeTimers();
     const db = new Database(":memory:");
-    const transport = createSqliteTransport({ db, batchSize: 10, flushInterval: 1000 });
+    const transport = createSqliteTransport({
+      db,
+      batch: true,
+      batchConfiguration: { size: 10, flushInterval: 1000 },
+    });
 
     transport.send({ id: "test-logger", level: "INFO", time: 1, context: {}, message: "hello" });
     await vi.advanceTimersByTimeAsync(0);

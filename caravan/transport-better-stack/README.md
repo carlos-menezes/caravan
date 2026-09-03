@@ -34,12 +34,14 @@ await logger.flush();
 
 ## Options
 
-| Option          | Type                                              | Default                      | Description                                                                                         |
-| --------------- | ------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------------------- |
-| `sourceToken`   | `string`                                          | —                            | Better Stack source token (required).                                                               |
-| `endpoint`      | `string`                                          | —                            | Ingesting host for the source (required). Each source has its own host, found on the source's page. |
-| `format`        | `(record: TLogRecord) => Record<string, unknown>` | default Better Stack mapping | Overrides how a record is mapped to a Better Stack log entry.                                       |
-| `batchSize`     | `number`                                          | `1`                          | Number of records buffered before a batch is sent.                                                  |
-| `flushInterval` | `number`                                          | —                            | Interval (ms) at which buffered records are sent regardless of `batchSize`.                         |
-| `fetch`         | `typeof fetch`                                    | global `fetch`               | Fetch implementation used to call the ingesting API.                                                |
-| `level`         | `TDefaultLevels`                                  | inherits the logger's level  | Drops records below this level before `write()` runs.                                               |
+| Option               | Type                                              | Default                      | Description                                                                                                                                                      |
+| -------------------- | ------------------------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sourceToken`        | `string`                                          | —                            | Better Stack source token (required).                                                                                                                            |
+| `endpoint`           | `string`                                          | —                            | Ingesting host for the source (required). Each source has its own host, found on the source's page.                                                              |
+| `format`             | `(record: TLogRecord) => Record<string, unknown>` | default Better Stack mapping | Overrides how a record is mapped to a Better Stack log entry.                                                                                                    |
+| `batch`              | `boolean`                                         | `false`                      | Enables buffering records into batched sends.                                                                                                                    |
+| `batchConfiguration` | `{ size?: number; flushInterval?: number }`       | —                            | Tunes batching: `size` records buffered before a send (default `1`), and/or `flushInterval` (ms) to send regardless of `size`. Only used when `batch` is `true`. |
+| `fetch`              | `typeof fetch`                                    | global `fetch`               | Fetch implementation used to call the ingesting API.                                                                                                             |
+| `level`              | `TDefaultLevels`                                  | inherits the logger's level  | Drops records below this level before `write()` runs.                                                                                                            |
+
+Legacy options `batchSize` and `flushInterval` are still supported but deprecated; prefer `batch: true` with `batchConfiguration`.

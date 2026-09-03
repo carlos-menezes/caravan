@@ -49,8 +49,13 @@ export const createBatcher = <TItem>(
 ): TBatcher<TItem> => {
   const size = configuration.size ?? configuration.batchSize ?? 1;
   let buffer: TItem[] = [];
+  let backgroundFlushError: unknown;
 
   const flush = async (): Promise<void> => {
+    if (backgroundFlushError !== undefined) {
+      throw backgroundFlushError;
+    }
+
     if (buffer.length === 0) {
       return;
     }
@@ -61,7 +66,11 @@ export const createBatcher = <TItem>(
   };
 
   const timer = configuration.flushInterval
-    ? setInterval(() => void flush(), configuration.flushInterval)
+    ? setInterval(() => {
+        void flush().catch((error: unknown) => {
+          backgroundFlushError ??= error;
+        });
+      }, configuration.flushInterval)
     : undefined;
   timer?.unref?.();
 

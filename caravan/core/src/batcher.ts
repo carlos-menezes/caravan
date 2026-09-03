@@ -7,8 +7,9 @@ export type TBatchConfiguration = {
 };
 
 /**
- * Mixed into a transport's configuration to declare whether it batches writes to its destination.
- * When `batch` is true, `batchConfiguration` tunes the buffering; otherwise batching is disabled.
+ * Mixed into a transport's configuration to express batching semantics.
+ * Prefer `batch: true` with `batchConfiguration` for new code; `batchSize`/`flushInterval` remain
+ * supported for backward compatibility (deprecated).
  */
 export type TBatchableConfiguration = (
   | { batch: true; batchConfiguration?: TBatchConfiguration }

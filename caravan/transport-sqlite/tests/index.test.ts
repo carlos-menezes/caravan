@@ -62,8 +62,10 @@ describe("createSqliteTransport", () => {
     expect(selectAll(db)).toHaveLength(0);
 
     transport.send({ id: "test-logger", level: "INFO", time: 2, context: {}, message: "two" });
-    await transport.flush();
+    await Promise.resolve();
+    expect(selectAll(db)).toHaveLength(2);
 
+    await transport.flush();
     expect(selectAll(db)).toHaveLength(2);
   });
 
